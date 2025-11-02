@@ -32,7 +32,7 @@ export const signup = async (request, response) => {
         }
         const hashing = await bcrypt.hash(password, 10);
 
-        await db.promise().query("insert into users (fullName , email , password) values (?, ? ,? )", [Fullname, Email, hashing]);
+        await db.promise().query("insert into users (fullName , email , password) values (?, ? ,? )", [fullName, email, hashing]);
         response.json({ success: true, message: "User registered successfully" });
     } catch (err) {
         console.error(err);
@@ -73,7 +73,7 @@ export const login = async (request, response) => {
             success : true ,
             message: "Login successful",
             token,
-            user: {id: user.id, fullName:user.fullName,role:user.Role },
+            user: {id: user.id, fullName:user.fullName,role:user.role },
         });
     } catch(err){
         console.error(err);

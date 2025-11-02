@@ -5,7 +5,7 @@ export const createUserTable = () => {
     id int auto_increment primary key,
     fullname varchar(100) not null,
     email varchar(50) unique not null,
-    password varchar(50) not null,
+    password varchar(255) not null,
     role enum('user','admin') default 'user'
     )`;
 
