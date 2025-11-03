@@ -11,6 +11,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$
 // Signup validation
 
 export const signup = async (request, response) => {
+    console.log("➡️ Received signup request:", request.body);
     const { fullName, email, password } = request.body;
 
     if (!fullName || !email || !password) {
