@@ -53,13 +53,13 @@ export const login = async (request, response) => {
         const [users] = await db.promise().query("select * from users where email =?", [email]);
 
         if (users.length === 0) {
-            return response.status(404).json({ message: "User not found" });
+            return response.status(400).json({ message: "User not found" });
         }
         const user = users[0];
 
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) {
-            return response.status(401).json({message:"Invalid Password"});
+            return response.status(400).json({message:"Invalid Password"});
         }
 
         const token = jwt.sign(
