@@ -1,0 +1,46 @@
+.signup-container {
+    padding-top: 1px;
+    padding-bottom: 10px;
+    justify-content: center;
+}
+
+.signup-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.signup-card h3 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.signup-card .form-control {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.signup-card .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 5px rgba(0, 119, 255, 0.5);
+}
+
+.signup-card button {
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.alert {
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 500;
+}

@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap"
 import "./Signup.css"
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
+
 
 const Signup = () => {
     const [form, setForm] = useState({ fullName: "", email: "", password: "", confirmPassword: "" });
@@ -12,15 +12,24 @@ const Signup = () => {
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const nameRegex = /^[a-zA-Z]+[\-'\s]?[a-zA-Z ]+$/;
 
         if (!form.fullName || !form.email || !form.password || !form.confirmPassword) {
             setVariant("danger");
             return setMessage("Please fill in all fields.");
         }
+        
+        if (!nameRegex.test(form.fullName)) {
+            setVariant("danger");
+            return setMessage("Full Name should only contain letters and spaces.");
+        }
+
         if (!emailRegex.test(form.email)) {
             setVariant("danger");
             return setMessage("Invalid email format.");
@@ -107,6 +116,14 @@ const Signup = () => {
                             <Button variant="primary" type="submit" className="w-100">
                                 Signup
                             </Button>
+
+                            <p className="text-center mt-3">
+                                Already a user?{" "}
+                                <Button variant="link" className="p-0" onClick={() => navigate("/login")}>
+                                    Login here
+                                </Button>
+                            </p>
+
 
                         </Form>
                         {message && (
