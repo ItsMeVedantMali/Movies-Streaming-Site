@@ -12,8 +12,9 @@ const Login = () => {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
+  try {
     const res = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -21,16 +22,34 @@ const Login = () => {
     });
 
     const data = await res.json();
-    if (data.success) {
+
+    if (res.ok && data.token) {
+      // Save JWT token & role
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.user.role);
+
       setVariant("success");
       setMessage("Login successful!");
-      localStorage.setItem("token", data.token); // Store JWT token
-      setTimeout(() => navigate("/dashboard"), 1500); // Redirect (you can change to home)
+
+      // ✅ Redirect based on role
+      setTimeout(() => {
+        if (data.user.role === "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/user-dashboard");
+        }
+      }, 1200);
     } else {
       setVariant("danger");
-      setMessage(data.message);
+      setMessage(data.message || "Invalid credentials");
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    setVariant("danger");
+    setMessage("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <Container className="login-container">

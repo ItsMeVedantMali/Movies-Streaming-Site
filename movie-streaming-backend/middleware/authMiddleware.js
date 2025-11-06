@@ -1,19 +1,23 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-dotenv.config();
+export const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
 
-export const verifyToken = (request, response, next) => {
-    const token = request.header.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(403).json({ message: "Access Denied. There is No token provided." });
+  }
 
-    if (!token) {
-        return response.status(400).json({ message: "Access Denied. There is No token provided." });
-    }
-    try{
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        request.user = decoded;
-        next();
-    } catch(err){
-        response.status(400).json({message:"Invalid Token"});
-    }
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ message: "Invalid Token." });
+    req.user = decoded;
+    next();
+  });
+};
+
+export const checkAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access Denied. Admins only." });
+  }
+  next();
 };
